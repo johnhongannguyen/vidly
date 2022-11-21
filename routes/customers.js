@@ -1,4 +1,5 @@
 const express =  require('express');
+const auth = require('../middleware/auth');
 const router = express.Router();
 const mongoose = require('mongoose'); 
 const Joi = require('joi');
@@ -14,7 +15,7 @@ router.get('/', async(req,res)=>{
     res.send(customers);
 })
 
-router.post('/',async(req,res)=>{
+router.post('/',auth,async(req,res)=>{
     // validate error
     const {error} = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
