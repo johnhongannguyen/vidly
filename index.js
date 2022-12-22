@@ -12,15 +12,20 @@ const config = require('config');
 const error = require('./middleware/error')
 require('express-async-errors');
 const winston = require('winston');
+require('winston-mongodb')
 
+// file transport
 winston.add(new winston.transports.File({filename: 'logfile.log'}))
+
+// mongodb transport
+winston.add(new winston.transports.MongoDB({db:'mongodb://localhost/genres',level:'info'}));
 
 if(!config.has('jwtPrivateKey')){
   console.log('FATAL ERROR: jwtPrivateKey is not defined')
   process.exit(1);
 }
 
-mongoose.connect('mongodb://localhost/genres')
+mongoose.connect('mongodb://localhost/genres',{useNewUrlParser: true,useUnifiedTopology: true })
     .then(()=> console.log('connected to MongoDB...'))
     .catch(err => console.log('Cannot connect to MongoDB'))
 
