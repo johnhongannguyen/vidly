@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 const {genreSchema} = require('./genre')
+Joi.objectId = require('joi-objectid')(Joi);
 
 
 const Movie = mongoose.model('Movie',new mongoose.Schema({
