@@ -1,12 +1,12 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
 const config = require('config');
 require('express-async-errors');
 const winston = require('winston');
 require('winston-mongodb')
 require('./startup/route')(app);
+require('./startup/db')();
 
 
 // uncaught exception
@@ -35,9 +35,6 @@ if(!config.has('jwtPrivateKey')){
   process.exit(1);
 }
 
-mongoose.connect('mongodb://localhost/genres',{useNewUrlParser: true,useUnifiedTopology: true })
-    .then(()=> console.log('connected to MongoDB...'))
-    .catch(err => console.log('Cannot connect to MongoDB'))
 
 
 
